@@ -1,24 +1,8 @@
 import { useReducer } from 'react'
-import response from '../mocks/results.json'
-
-const orders = response.orders.map((order) => {
-	const number = order.number
-	const products = order.items.map((product) => {
-		return {
-			sku: product.sku,
-			name: product.name,
-			quantity: product.fulfillment.quantity,
-			price: product.price,
-		}
-	})
-	return { number, products }
-})
-
-const initialState = {
-	orders,
-}
+//import response from '../mocks/results.json'
 
 export const actionTypes = {
+	downloadProducts: 'DOWNLOAD_PRODUCTS',
 	addToProduct: 'ADD_TO_PRODUCT',
 }
 
@@ -35,9 +19,18 @@ const reducer = (state, action) => {
 					}
 				}),
 			}
+		case actionTypes.downloadProducts:
+			return {
+				...state,
+				orders: action.payload,
+			}
 		default:
 			return state
 	}
+}
+
+const initialState = {
+	orders: [],
 }
 
 const useInitialState = () => {
